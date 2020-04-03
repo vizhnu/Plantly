@@ -17,6 +17,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -82,6 +83,17 @@ public class CameraActivity extends AppCompatActivity {
                 takePicture();
             }
         });
+        takePictureButton.setEnabled(false);
+
+        new CountDownTimer(500, 250) {
+            public void onFinish() {
+                takePictureButton.setEnabled(true);
+            }
+
+            public void onTick(long millisUntilFinished) {
+                // millisUntilFinished    The amount of time until finished.
+            }
+        }.start();
     }
 
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
