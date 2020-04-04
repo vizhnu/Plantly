@@ -2,4 +2,6 @@
     <string name="app_name">Plantly</string>
     <string name="take_photo">Take Photo</string>
     <string name="take_picture">Take Picture</string>
+    <string name="preview_description">Picture to upload</string>
+    <string name="upload_picture">Upload</string>
 </resources>

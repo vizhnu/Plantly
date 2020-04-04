@@ -2,6 +2,7 @@ package com.me.vishnu.plantly;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -47,6 +48,7 @@ public class CameraActivity extends AppCompatActivity {
     private Button takePictureButton;
     private TextureView textureView;
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
+    public static final String EXTRA_IMAGE_PATH = "com.me.vishnu.plantly.FILE_PATH"; //this is a global key
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -141,10 +143,18 @@ public class CameraActivity extends AppCompatActivity {
         @Override
         public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
             super.onCaptureCompleted(session, request, result);
-            Toast.makeText(CameraActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
-            createCameraPreview();
+            //createCameraPreview();
+            //launchPreviewActivity();
         }
     };
+
+    public void launchPreviewActivity(File file){
+        Intent intent = new Intent(this, PhotoPreviewActivity.class);
+        intent.putExtra(EXTRA_IMAGE_PATH, file.toString());
+        Toast.makeText(CameraActivity.this,  file.toString(), Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+
+    }
 
     protected void startBackgroundThread() {
         mBackgroundThread = new HandlerThread("Camera Background");
@@ -231,7 +241,8 @@ public class CameraActivity extends AppCompatActivity {
                 public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
                     Toast.makeText(CameraActivity.this, "Saved:" + file, Toast.LENGTH_SHORT).show();
-                    createCameraPreview();
+                    //createCameraPreview();
+                    launchPreviewActivity(file);
                 }
             };
             cameraDevice.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() {
